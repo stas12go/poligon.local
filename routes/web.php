@@ -1,10 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
 use App\Http\Controllers\RestTestController;
-=======
->>>>>>> e14e05b... Выполнены лишь миграции
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +18,4 @@ use App\Http\Controllers\RestTestController;
 Route::get('/', function () {
     return view('welcome');
 });
-<<<<<<< HEAD
-
 Route::resource('rest', RestTestController::class)->names('restTest');
-=======
->>>>>>> e14e05b... Выполнены лишь миграции
