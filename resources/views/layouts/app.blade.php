@@ -25,22 +25,13 @@
         <!-- Page Heading -->
         <header class="bg-white shadow">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                Список постов
-                {{-- {{ $header }} --}}
+                {{ $header }}
             </div>
         </header>
 
         <!-- Page Content -->
         <main>
-            <table>
-                @foreach ($items as $item)
-                    <tr>
-                        <td>{{ $item->id }}</td>
-                        <td>{{ $item->title }}</td>
-                        <td>{{ $item->created_at }}</td>
-                    </tr>
-                @endforeach
-            </table>
+            {{ $slot }}
         </main>
     </div>
 </body>
