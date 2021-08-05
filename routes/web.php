@@ -18,4 +18,9 @@ use App\Http\Controllers\RestTestController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('rest', RestTestController::class)->names('restTest');
+
+Route::prefix('blog')->namespace('Blog')->group(function () {
+    Route::resource('posts', 'PostController')->names('blog.posts');
+});
+
+// Route::resource('rest', 'RestTestController')->names('restTest');
