@@ -21,9 +21,10 @@ namespace App\Models{
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory newQuery()
+ * @method static \Illuminate\Database\Query\Builder|BlogCategory onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory query()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereDeletedAt($value)
@@ -33,6 +34,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|BlogCategory withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|BlogCategory withoutTrashed()
  */
 	class BlogCategory extends \Eloquent {}
 }

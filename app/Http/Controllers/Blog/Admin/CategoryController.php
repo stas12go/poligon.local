@@ -6,9 +6,32 @@ use App\Http\Controllers\Blog\BaseController;
 use App\Models\BlogCategory;
 use App\Repositories\BlogCategoryRepository;
 use Illuminate\Http\Request;
+use Str;
 
+// use App\Models\BlogCategory;
+
+/**
+ * Управление категориями блога
+ * 
+ * @package App\Http\Controllers\Blog\Admin
+ */
 class CategoryController extends BaseController
 {
+    /**
+     * @var BlogCategoryRepository
+     */
+    private $blogCategoryRepository;
+
+    /**
+     * CategoryController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->blogCategoryRepository = app(BlogCategoryRepository::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +39,8 @@ class CategoryController extends BaseController
      */
     public function index()
     {
-        $paginator = BlogCategory::paginate(15);
+        // $paginator = BlogCategory::paginate(15);
+        $paginator = $this->blogCategoryRepository->getAllWithPaginate(5);
 
         return view('blog.admin.category.index', compact('paginator'));
     }
@@ -28,7 +52,10 @@ class CategoryController extends BaseController
      */
     public function create()
     {
-        //
+        $category = new BlogCategory();
+        $categoriesList = $this->blogCategoryRepository->getForCombobox();
+
+        return view('blog.admin.category.edit', compact('category', 'categoriesList'));
     }
 
     /**
@@ -39,7 +66,24 @@ class CategoryController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->input();
+        if (!$data['slug']) {
+            $data['slug'] = Str::slug($data['title']);
+        }
+
+        $category = (new BlogCategory())->create($data);
+
+        if ($category) {
+            return redirect()
+                ->route('blog.admin.categories.edit', [$category->id])
+                ->with(['success' => 'Успешно сохранено']);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Ошибка сохранения'])
+                ->withInput();
+        }
+
+        // dd($data);
     }
 
     /**
@@ -53,11 +97,11 @@ class CategoryController extends BaseController
         // $category = BlogCategory::findOrFail($id);
         // $categoriesList = BlogCategory::all();
 
-        $category = $categoryRepository->getEdit($id);
+        $category = $this->blogCategoryRepository->getEdit($id);
         if (!$category) {
             abort(404);
         }
-        $categoriesList = $categoryRepository->getForCombobox();
+        $categoriesList = $this->blogCategoryRepository->getForCombobox();
 
         return view('blog.admin.category.edit', compact('category', 'categoriesList'));
     }
@@ -71,6 +115,28 @@ class CategoryController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        dd(__METHOD__, $request->all(), $id);
+        $category = $this->blogCategoryRepository->getEdit($id);
+
+        if (!$category) {
+            return back()
+                ->withErrors(['msg' => "Запись id = [{$id}] не найдена"])
+                ->withInput();
+        }
+
+        $data = $request->all();
+        if (!$data['slug']) {
+            $data['slug'] = Str::slug($data['title']);
+        }
+        $result = $category->update($data);
+
+        if ($result) {
+            return redirect()
+                ->route('blog.admin.categories.edit', [$category->id])
+                ->with(['success' => 'Успешно сохранено']);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Ошибка сохранения'])
+                ->withInput();
+        }
     }
 }
