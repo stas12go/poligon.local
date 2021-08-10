@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Blog\Admin;
 
 use App\Http\Controllers\Blog\BaseController;
 use App\Models\BlogCategory;
+use App\Repositories\BlogCategoryRepository;
 use Illuminate\Http\Request;
 
 class CategoryController extends BaseController
@@ -15,7 +16,7 @@ class CategoryController extends BaseController
      */
     public function index()
     {
-        $paginator = BlogCategory::paginate(5);
+        $paginator = BlogCategory::paginate(15);
 
         return view('blog.admin.category.index', compact('paginator'));
     }
@@ -47,10 +48,16 @@ class CategoryController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, BlogCategoryRepository $categoryRepository)
     {
-        $category = BlogCategory::findOrFail($id);
-        $categoriesList = BlogCategory::all();
+        // $category = BlogCategory::findOrFail($id);
+        // $categoriesList = BlogCategory::all();
+
+        $category = $categoryRepository->getEdit($id);
+        if (!$category) {
+            abort(404);
+        }
+        $categoriesList = $categoryRepository->getForCombobox();
 
         return view('blog.admin.category.edit', compact('category', 'categoriesList'));
     }
