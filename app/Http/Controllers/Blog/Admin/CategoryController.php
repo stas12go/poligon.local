@@ -43,7 +43,7 @@ class CategoryController extends BaseController
         // $paginator = BlogCategory::paginate(15);
         $paginator = $this->blogCategoryRepository->getAllWithPaginate(5);
 
-        return view('blog.admin.category.index', compact('paginator'));
+        return view('blog.admin.categories.index', compact('paginator'));
     }
 
     /**
@@ -56,7 +56,7 @@ class CategoryController extends BaseController
         $category = new BlogCategory();
         $categoriesList = $this->blogCategoryRepository->getForCombobox();
 
-        return view('blog.admin.category.edit', compact('category', 'categoriesList'));
+        return view('blog.admin.categories.edit', compact('category', 'categoriesList'));
     }
 
     /**
@@ -104,7 +104,7 @@ class CategoryController extends BaseController
         }
         $categoriesList = $this->blogCategoryRepository->getForCombobox();
 
-        return view('blog.admin.category.edit', compact('category', 'categoriesList'));
+        return view('blog.admin.categories.edit', compact('category', 'categoriesList'));
     }
 
     /**

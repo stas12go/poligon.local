@@ -25,11 +25,11 @@
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @include('blog.admin.category.includes.item_edit_main_column')
+                @include('blog.admin.categories.includes.item_edit_main_column')
             </div>
             @if ($category->exists)
                 <div class="col-md-4">
-                    @include('blog.admin.category.includes.item_edit_add_column')
+                    @include('blog.admin.categories.includes.item_edit_add_column')
                 </div>
             @endif
         </div>

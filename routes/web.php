@@ -33,4 +33,8 @@ Route::prefix('admin/blog')->namespace('Blog\Admin')->group(function () {
     Route::resource('categories', 'CategoryController')
         ->only($methods)
         ->names('blog.admin.categories');
+
+    Route::resource('posts', 'PostController')
+        ->except('show')
+        ->names('blog.admin.posts');
 });
