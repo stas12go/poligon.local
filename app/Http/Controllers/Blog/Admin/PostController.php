@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Blog\Admin;
 
 use App\Http\Controllers\Blog\BaseController;
+use App\Http\Requests\BlogPostUpdateRequest;
 use App\Repositories\BlogCategoryRepository;
 use App\Repositories\BlogPostRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 /**
  * PostController
@@ -101,9 +104,37 @@ class PostController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BlogPostUpdateRequest $request, $id)
     {
-        dd(__METHOD__, $request->all(), $id);
+        $post = $this->blogPostRepository->getEdit($id);
+
+        if (!$post) {
+            return back()
+                ->withErrors(['msg' => "Запись id=[{$id}] не найдена."])
+                ->withInput();
+        }
+
+        $data = $request->all();
+
+        if (!$data['slug']) {
+            $data['slug'] = Str::slug($data['title']);
+        }
+
+        if (!$post->published_at && $data['is_published']) {
+            $data['published_at'] = Carbon::now();
+        }
+
+        $result = $post->update($data);
+
+        if (!$result) {
+            return back()
+                ->withErrors(['msg' => 'Ошибка сохранения'])
+                ->withInput();
+        }
+
+        return redirect()
+            ->route('blog.admin.posts.edit', $post->id)
+            ->with(['success' => 'Успешно сохранено']);
     }
 
     /**

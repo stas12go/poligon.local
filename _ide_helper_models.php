@@ -42,23 +42,24 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\BlogPost
+ * Class BlogPost
  *
+ * @package App\Models
+ * @property App\Models\BlogCategory $category
+ * @property App\Models\User $user
+ * @property string $title
+ * @property string $slug
+ * @property string $content_html
+ * @property string $content_raw
+ * @property string $excerpt
+ * @property string $published_at
+ * @property boolean $is_published
  * @property int $id
  * @property int $category_id
  * @property int $user_id
- * @property string $slug
- * @property string $title
- * @property string|null $excerpt
- * @property string $content_raw
- * @property string $content_html
- * @property int $is_published
- * @property string|null $published_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \App\Models\BlogCategory $category
- * @property-read \App\Models\User $user
  * @method static \Database\Factories\BlogPostFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost newQuery()
