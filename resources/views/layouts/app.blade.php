@@ -18,6 +18,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    {{ $scripts ?? '' }}
 </head>
 
 <body class="font-sans antialiased">

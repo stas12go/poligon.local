@@ -27,6 +27,7 @@ Route::prefix('blog')->namespace('Blog')->group(function () {
     Route::resource('posts', 'PostController')->names('blog.posts');
 });
 
+// TODO установить проверку роли
 Route::prefix('admin/blog')->namespace('Blog\Admin')->group(function () {
     $methods = ['index', 'edit', 'store', 'update', 'create'];
 

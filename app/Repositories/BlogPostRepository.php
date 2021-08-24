@@ -22,7 +22,7 @@ class BlogPostRepository extends BaseRepository
      * Получить категории для вывода пагинатора
      * в админке.
      * 
-     * @return Illuminate\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function getAllWithPaginate()
     {
@@ -49,5 +49,17 @@ class BlogPostRepository extends BaseRepository
             ->paginate(25);
 
         return $result;
+    }
+
+    /**
+     * Get model for editing by admin
+     * 
+     * @param int $id 
+     * 
+     * @return Model
+     */
+    public function getEdit($id)
+    {
+        return $this->startConditions()->find($id);
     }
 }
