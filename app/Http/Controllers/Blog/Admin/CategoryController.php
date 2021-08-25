@@ -69,12 +69,6 @@ class CategoryController extends BaseController
     {
         $data = $request->input();
 
-        /* Ушло в обсервер
-        if (!$data['slug']) {
-            $data['slug'] = Str::slug($data['title']);
-        }
-        */
-
         $category = (new BlogCategory())->create($data);
 
         if ($category) {

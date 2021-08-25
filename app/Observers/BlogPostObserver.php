@@ -9,23 +9,48 @@ use Illuminate\Support\Str;
 class BlogPostObserver
 {
     /**
+     * @param BlogPost $blogPost
+     * 
+     * @return void/false
+     */
+    public function creating(BlogPost $blogPost)
+    {
+        $this->setPublishedAt($blogPost);
+
+        $this->setSlug($blogPost);
+
+        $this->setHtml($blogPost);
+
+        $this->setUser($blogPost);
+    }
+
+    /**
+     * Создание HTML из сырой статьи
+     * 
+     * @param BlogPost $blogPost
+     * 
+     * @return void
+     */
+    protected function setHtml(BlogPost $blogPost)
+    {
+        if ($blogPost->isDirty('content_raw')) {
+            // TODO тут должна быть генерация markdown -> HTML
+            $blogPost->content_html = $blogPost->content_raw;
+        }
+    }
+
+    protected function setUser(BlogPost $blogPost)
+    {
+        $blogPost->user_id = auth()->id() ?? BlogPost::UNKNOWN_USER;
+    }
+
+    /**
      * Handle the BlogPost "created" event.
      *
      * @param  \App\Models\BlogPost  $blogPost
      * @return void
      */
     public function created(BlogPost $blogPost)
-    {
-        //
-    }
-
-    /**
-     * Handle the BlogPost "updated" event.
-     *
-     * @param  \App\Models\BlogPost  $blogPost
-     * @return void
-     */
-    public function updated(BlogPost $blogPost)
     {
         //
     }
@@ -48,6 +73,17 @@ class BlogPostObserver
         $this->setPublishedAt($blogPost);
 
         $this->setSlug($blogPost);
+    }
+
+    /**
+     * Handle the BlogPost "updated" event.
+     *
+     * @param  \App\Models\BlogPost  $blogPost
+     * @return void
+     */
+    public function updated(BlogPost $blogPost)
+    {
+        //
     }
 
     /**
