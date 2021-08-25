@@ -7,8 +7,6 @@ use App\Http\Requests\BlogPostUpdateRequest;
 use App\Repositories\BlogCategoryRepository;
 use App\Repositories\BlogPostRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
 /**
  * PostController
@@ -108,7 +106,7 @@ class PostController extends BaseController
     {
         $post = $this->blogPostRepository->getEdit($id);
 
-        if (!$post) {
+        if (empty($post)) {
             return back()
                 ->withErrors(['msg' => "Запись id=[{$id}] не найдена."])
                 ->withInput();
@@ -116,6 +114,7 @@ class PostController extends BaseController
 
         $data = $request->all();
 
+        /* Ушло в обсервер
         if (!$data['slug']) {
             $data['slug'] = Str::slug($data['title']);
         }
@@ -123,6 +122,7 @@ class PostController extends BaseController
         if (!$post->published_at && $data['is_published']) {
             $data['published_at'] = Carbon::now();
         }
+        */
 
         $result = $post->update($data);
 
