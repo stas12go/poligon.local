@@ -69,6 +69,8 @@ class CategoryController extends BaseController
     {
         $data = $request->input();
 
+        /* Раньше тут была логика со slug, но её перенёс в Обсервер */
+
         $category = (new BlogCategory())->create($data);
 
         if ($category) {

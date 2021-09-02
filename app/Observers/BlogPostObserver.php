@@ -96,7 +96,7 @@ class BlogPostObserver
         $needSetPublished = empty($blogPost->published_at) && $blogPost['is_published'];
 
         if ($needSetPublished) {
-            $data['published_at'] = Carbon::now();
+            $blogPost['published_at'] = Carbon::now();
         }
     }
 
